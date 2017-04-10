@@ -32,6 +32,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"encoding/csv" // Add Support for writting to csv files
 
 	"github.com/coreos/clair/api/v1"
 	"github.com/coreos/clair/utils/types"
@@ -216,6 +217,8 @@ func AnalyzeLocalImage(imageName string, minSeverity types.Priority, endpoint, m
 
 	isSafe := true
 	hasVisibleVulnerabilities := false
+	
+
 
 	var vulnerabilities = make([]vulnerabilityInfo, 0)
 	for _, feature := range layer.Features {
@@ -241,11 +244,34 @@ func AnalyzeLocalImage(imageName string, minSeverity types.Priority, endpoint, m
 
 	By(priority).Sort(vulnerabilities)
 
+	//Create .csv file for vulnerabilities
+	file, err := os.Create("vulnerabilities.csv")
+	if err != nil {
+		return err
+	}
+	defer file.close()
+	writer := csv.NewWriter(file)
+	defer writer.Flush()
+
+	var vulString [7]string
+	
 	for _, vulnerabilityInfo := range vulnerabilities {
 		vulnerability := vulnerabilityInfo.vulnerability
 		feature := vulnerabilityInfo.feature
 		severity := vulnerabilityInfo.severity
 
+		//Grab Data For Table
+		vulString[0] = vulnerability.Name
+		vulString[1] = serverity
+		vulString[2] = feature.Name
+		vulString[3] = feature.Version
+		vulString[4] = vulnerability.FixedBy
+		vulString[5] = vulnerability.Link
+		vulString[6] = feature.AddedBy
+
+		fmt.Printf("Print Data to .csv File\n")
+		writer.Write(vulString) //Print Line to csv File
+		
 		fmt.Printf("%s (%s)\n", vulnerability.Name, coloredSeverity(severity))
 
 		if vulnerability.Description != "" {
@@ -453,3 +479,6 @@ func coloredSeverity(severity types.Priority) string {
 		return white(severity)
 	}
 }
+
+
+
