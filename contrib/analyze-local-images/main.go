@@ -470,6 +470,10 @@ func coloredSeverity(severity types.Priority) string {
 	yellow := color.New(color.FgYellow).SprintFunc()
 	white := color.New(color.FgWhite).SprintFunc()
 
+	red.NoColor = true
+	yellow.NoColor = true
+	white.NoColor = true	
+
 	switch severity {
 	case types.High, types.Critical:
 		return red(severity)
