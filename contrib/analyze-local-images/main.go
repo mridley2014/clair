@@ -263,7 +263,7 @@ func AnalyzeLocalImage(imageName string, minSeverity types.Priority, endpoint, m
 		//Grab Data For Table
 		vulString[0] = vulnerability.Name
 		vulString[1] = vulnerability.Link
-		vulString[2] = sprintf(severity)
+		vulString[2] = fmt.sprintf(severity)
 		vulString[3] = feature.Name
 		vulString[4] = feature.Version
 		vulString[5] = vulnerability.FixedBy
