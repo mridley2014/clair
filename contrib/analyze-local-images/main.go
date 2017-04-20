@@ -263,7 +263,7 @@ func AnalyzeLocalImage(imageName string, minSeverity types.Priority, endpoint, m
 		//Grab Data For Table
 		vulString[0] = vulnerability.Name
 		vulString[1] = vulnerability.Link
-		vulString[2] = coloredSeverity(severity)
+		vulString[2] = sprintf(severity)
 		vulString[3] = feature.Name
 		vulString[4] = feature.Version
 		vulString[5] = vulnerability.FixedBy
@@ -469,10 +469,6 @@ func coloredSeverity(severity types.Priority) string {
 	red := color.New(color.FgRed).SprintFunc()
 	yellow := color.New(color.FgYellow).SprintFunc()
 	white := color.New(color.FgWhite).SprintFunc()
-
-	red.NoColor = true
-	yellow.NoColor = true
-	white.NoColor = true	
 
 	switch severity {
 	case types.High, types.Critical:
