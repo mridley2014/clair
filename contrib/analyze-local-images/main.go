@@ -253,7 +253,7 @@ func AnalyzeLocalImage(imageName string, minSeverity types.Priority, endpoint, m
 	writer := csv.NewWriter(file)
 	defer writer.Flush()
 	
-	imageInfo := [7]string{imageName, "", "", "", "", "", ""}
+	var imageInfo = []string{imageName, "", "", "", "", "", ""}
 	writer.Write(imageInfo)
 
 	var vulString = []string{"", "", "", "", "", "", ""}
