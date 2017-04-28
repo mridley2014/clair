@@ -253,6 +253,8 @@ func AnalyzeLocalImage(imageName string, minSeverity types.Priority, endpoint, m
 	writer := csv.NewWriter(file)
 	defer writer.Flush()
 
+	writer.Write(imageName)
+
 	var vulString = []string{"", "", "", "", "", "", ""}
 	
 	for _, vulnerabilityInfo := range vulnerabilities {
